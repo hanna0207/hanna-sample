@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>반복문!!!</title>
+  <style>
+    body { margin:0px; }
+    .box {
+      position:absolute;
+      width:10vw; height:10vh; 
+      line-height: 10vh;
+      text-align: center;
+      font-size: 9pt;
+      color:#ffffff;
+      font-family: sans-serif;
+      transition: background-color 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+<script>
+let texts = "";
+let idx = 0;
+let foods = [
+  "🍕 피자", "🍣 스시", "🍜 라면", "🍔 햄버거", "🥟 만두", "🍞 식빵", "🍩 도넛", "🥗 샐러드", "🍗 치킨", "🧀 치즈",
+  "🍰 케이크", "🍙 주먹밥", "🌮 타코", "🍤 새우튀김", "🥪 샌드위치", "🥘 찌개", "🍛 카레", "🍚 밥", "🥞 팬케이크", "🍇 포도"
+];
+
+let grayColors = [];   // 원래 회색 배경 저장
+let foodTexts = [];    // 원래 텍스트 저장
+
+for (let y = 0; y < 10; y++) {
+  for (let x = 0; x < 10; x++) {
+    let _left = x * 10;
+    let _top = y * 10;
+    let gray = parseInt(Math.random() * 155 + 50);
+    let rgb = `rgb(${gray},${gray},${gray})`;
+    let food = foods[idx % foods.length];
+
+    grayColors.push(rgb);
+    foodTexts.push(food);
+
+    texts += `<div class='box' id='box${idx}'
+              style='left:${_left}vw; top:${_top}vh;
+              background-color:${rgb};'>
+              ${food}
+              </div>`;
+    idx++;
+  }
+}
+
+document.write(texts);
+
+document.addEventListener("mousemove", (e) => {
+  let vw = window.innerWidth / 10;
+  let vh = window.innerHeight / 10;
+  let x = Math.floor(e.clientX / vw);
+  let y = Math.floor(e.clientY / vh);
+  let index = y * 10 + x;
+
+  for (let i = 0; i < 100; i++) {
+    let box = document.getElementById("box" + i);
+    if (i === index) {
+      // 랜덤 붉은 계열 만들기
+      let r = Math.floor(Math.random() * 100 + 155);
+      let g = Math.floor(Math.random() * 50);
+      let b = Math.floor(Math.random() * 50);
+      box.style.backgroundColor = `rgb(${r},${g},${b})`;
+      box.innerText = "오늘 점심!";
+    } else {
+      box.style.backgroundColor = grayColors[i];
+      box.innerText = foodTexts[i];
+    }
+  }
+});
+</script>
+</body>
+</html>
